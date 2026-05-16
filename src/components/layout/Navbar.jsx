@@ -100,6 +100,9 @@ export function Navbar({ theme, onToggleTheme, onOpenCommand }) {
                     >
                       <div className="mb-4 flex items-center justify-between">
                         <Dialog.Title className="font-display text-lg font-bold text-white">Navigation</Dialog.Title>
+                        <Dialog.Description className="sr-only">
+                          Choose a portfolio section to jump to on this page.
+                        </Dialog.Description>
                         <Dialog.Close asChild>
                           <Button variant="ghost" size="icon">
                             <X className="h-4 w-4" />

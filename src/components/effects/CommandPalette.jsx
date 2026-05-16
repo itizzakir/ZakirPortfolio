@@ -48,6 +48,10 @@ export function CommandPalette({ actions, open, onOpenChange, onToggleTheme, onT
                 exit={{ opacity: 0, y: -18, scale: 0.96 }}
                 transition={{ duration: 0.22 }}
               >
+                <Dialog.Title className="sr-only">Command palette</Dialog.Title>
+                <Dialog.Description className="sr-only">
+                  Search portfolio actions, navigate sections, and toggle interface settings.
+                </Dialog.Description>
                 <div className="flex items-center gap-3 border-b border-white/10 px-4 py-3">
                   <Search className="h-4 w-4 text-cyan-200" />
                   <input

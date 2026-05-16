@@ -27,7 +27,7 @@ export function Hero() {
       <div className="absolute inset-0 bg-cyber-grid bg-[length:64px_64px] opacity-[0.16] [mask-image:linear-gradient(to_bottom,transparent,black_16%,black_76%,transparent)]" />
       <div className="absolute inset-0 aurora-field" aria-hidden="true" />
       <ParticleField />
-      <div className="absolute inset-0 z-0 opacity-90">
+      <div className="hero-scene-layer absolute inset-0 z-0">
         <Suspense fallback={<div className="h-full w-full" />}>
           <HeroScene />
         </Suspense>
@@ -36,7 +36,7 @@ export function Hero() {
       <img
         src={personal.profileImage}
         alt=""
-        className="pointer-events-none absolute bottom-0 right-0 z-[1] hidden h-[78vh] max-h-[760px] w-auto translate-x-[18%] object-contain opacity-[0.12] mix-blend-screen saturate-150 lg:block"
+        className="hero-profile-ghost pointer-events-none absolute bottom-0 right-0 z-[1] hidden h-[78vh] max-h-[760px] w-auto translate-x-[18%] object-contain mix-blend-screen saturate-150 lg:block"
         aria-hidden="true"
       />
 

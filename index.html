@@ -29,14 +29,38 @@
     <meta name="twitter:image" content="https://github.com/itizzakir.png?size=640" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href="https://zakir-s-portfolio.vercel.app/" />
+    <script>
+      (() => {
+        try {
+          const storedTheme = localStorage.getItem("portfolio-theme");
+          const theme = storedTheme === "light" || storedTheme === "spectrum" ? "light" : "dark";
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.classList.toggle("dark", theme === "dark");
+          document.documentElement.style.colorScheme = theme;
+        } catch {
+          document.documentElement.dataset.theme = "dark";
+          document.documentElement.classList.add("dark");
+          document.documentElement.style.colorScheme = "dark";
+        }
+      })();
+    </script>
     <style>
       html,
       body,
       #root {
         min-height: 100%;
         margin: 0;
+      }
+
+      html {
         background: #03050b;
         color: #ecfeff;
+      }
+
+      body,
+      #root {
+        background: transparent;
+        color: inherit;
       }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
