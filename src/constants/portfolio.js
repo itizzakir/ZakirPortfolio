@@ -29,7 +29,7 @@ export const typingRoles = [
 ];
 
 export const metrics = [
-  { value: 3, suffix: "+", label: "Major full-stack projects" },
+  { value: 5, suffix: "+", label: "Major full-stack projects" },
   { value: 20, suffix: "+", label: "Core technologies" },
   { value: 4, suffix: "+", label: "Secure API modules shipped" },
   { value: 100, suffix: "%", label: "Responsive interfaces" },
@@ -59,7 +59,7 @@ export const techGroups = [
   },
   {
     title: "Frameworks & Libraries",
-    items: ["Spring Boot", "Spring Data JPA", "Spring Security", "React.js", "Redux", "Node.js", "Hibernate ORM"],
+    items: ["Spring Boot", "Spring Data JPA", "Spring Security", "React.js", "Redux", "Node.js", "Hibernate ORM", "Axios", "React Router DOM", "Lucide React"],
   },
   {
     title: "Web Technologies",
@@ -71,7 +71,7 @@ export const techGroups = [
   },
   {
     title: "Developer Tools",
-    items: ["VS Code", "IntelliJ IDEA Ultimate", "Spring Tool Suite (STS)", "Postman", "Git", "GitHub"],
+    items: ["VS Code", "IntelliJ IDEA Ultimate", "Spring Tool Suite (STS)", "Postman", "Git", "GitHub", "Vite"],
   },
 ];
 
@@ -98,8 +98,13 @@ export const projects = [
     github: "https://github.com/itizzakir/HRManagementSystem",
     live: "https://hr-management-system-demo.vercel.app/",
     accent: "from-cyan-400 via-blue-500 to-violet-500",
+    preview: {
+      label: "HR suite",
+      headline: "Payroll, attendance, performance",
+      items: ["Employee CRUD", "Payroll rules", "Attendance logs", "RBAC access"],
+    },
     description: [
-      "Developed a full-stack HRMS application to manage employee records, payroll, attendance, and performance modules.",
+      "Managed employee records, payroll, attendance, and performance modules.",
       "Implemented RBAC using JWT and Spring Security.",
       "Built responsive React frontend integrated with Spring Boot REST APIs.",
     ],
@@ -111,10 +116,15 @@ export const projects = [
     github: "https://github.com/ankulsingh221/Food-Delivery-App",
     live: "https://quick-eats-demo.vercel.app/",
     accent: "from-fuchsia-400 via-rose-500 to-orange-400",
+    preview: {
+      label: "Delivery flow",
+      headline: "Menus, carts, orders",
+      items: ["Food catalog", "Cart flow", "Order APIs", "Role access"],
+    },
     description: [
       "Developed scalable food delivery application.",
       "Implemented JWT authentication and RBAC.",
-      "Built responsive frontend using React.js, Axios, and Tailwind CSS.",
+      "Built responsive React, Axios, and Tailwind CSS frontend.",
     ],
   },
   {
@@ -124,10 +134,51 @@ export const projects = [
     github: "https://github.com/sharvari25-hash/Travel-Planner",
     live: "https://travel-planner-demo-beige.vercel.app/",
     accent: "from-emerald-300 via-cyan-400 to-indigo-500",
+    preview: {
+      label: "Trip planner",
+      headline: "Bookings, itineraries, tracking",
+      items: ["Trip boards", "Booking APIs", "JWT security", "Planner UI"],
+    },
     description: [
       "Built travel planning platform.",
       "Implemented JWT authentication and Spring Security.",
-      "Developed REST APIs for booking management and trip tracking.",
+      "Developed booking management and trip tracking REST APIs.",
+    ],
+  },
+  {
+    name: "EmPower",
+    title: "Employee Management System",
+    tech: ["React.js", "Spring Boot", "Spring Data JPA", "MySQL", "Tailwind CSS", "PDF Generation"],
+    github: "https://github.com/itizzakir/EmployeeManagementSystem",
+    live: "https://empower-demo.vercel.app/",
+    accent: "from-sky-300 via-cyan-500 to-blue-600",
+    preview: {
+      label: "Employee ops",
+      headline: "Finance, projects, dashboards",
+      items: ["Admin panel", "Employee portal", "Payslip PDF", "Validation rules"],
+    },
+    description: [
+      "Employee records, finance tracking, project management, and Admin/Employee dashboards.",
+      "Secure JWT RBAC, backend validation, and safe employee data rules.",
+      "Spring Boot, JPA, MySQL APIs with React/Vite/Tailwind dashboard and PDF payslips.",
+    ],
+  },
+  {
+    name: "Velora",
+    title: "E-Commerce Platform",
+    tech: ["React.js", "Spring Boot", "Spring Security", "JWT", "MySQL", "Tailwind CSS"],
+    github: "https://github.com/itizzakir/ECommerceApplication",
+    live: "https://e-commerce-application-demo-live.vercel.app/",
+    accent: "from-rose-400 via-fuchsia-500 to-violet-600",
+    preview: {
+      label: "Commerce engine",
+      headline: "Storefront, checkout, admin",
+      items: ["Product CRUD", "Cart and wishlist", "Order tracking", "Review tools"],
+    },
+    description: [
+      "Responsive storefront with search, cart, wishlist, ratings, checkout, and order tracking.",
+      "JWT auth, Spring Security RBAC, protected routes, and secure Axios API handling.",
+      "Admin product CRUD, categories, order processing, analytics, and review moderation.",
     ],
   },
 ];

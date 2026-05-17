@@ -1,3 +1,4 @@
+import { memo, useCallback } from "react";
 import { motion } from "framer-motion";
 import Tilt from "react-parallax-tilt";
 import { Autoplay, EffectCoverflow, Pagination } from "swiper/modules";
@@ -10,53 +11,74 @@ import { SectionHeading } from "../shared/SectionHeading";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 
-function ProjectCard({ project }) {
-  const onPointerMove = (event) => {
+const ProjectCard = memo(function ProjectCard({ project }) {
+  const onPointerMove = useCallback((event) => {
     const rect = event.currentTarget.getBoundingClientRect();
     event.currentTarget.style.setProperty("--card-x", `${event.clientX - rect.left}px`);
     event.currentTarget.style.setProperty("--card-y", `${event.clientY - rect.top}px`);
-  };
+  }, []);
 
   return (
-    <Tilt tiltMaxAngleX={7} tiltMaxAngleY={7} glareEnable glareMaxOpacity={0.1} className="h-full">
+    <Tilt tiltMaxAngleX={7} tiltMaxAngleY={7} glareEnable glareMaxOpacity={0.1} className="flex w-full">
       <article
         onPointerMove={onPointerMove}
-        className="project-card group relative flex min-h-[540px] flex-col overflow-hidden rounded-[8px] border border-white/10 bg-[#07101f]/78 p-5 shadow-neon-soft backdrop-blur-xl sm:p-6"
+        className="project-card group relative flex w-full flex-col overflow-hidden rounded-[8px] border border-white/10 bg-[#07101f]/78 p-4 shadow-neon-soft backdrop-blur-xl"
       >
         <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${project.accent}`} />
         <div className="absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100" style={{ background: "radial-gradient(500px circle at var(--card-x, 50%) var(--card-y, 0%), rgba(34,211,238,0.16), transparent 45%)" }} />
         <div className="relative">
-          <div className="mb-6 flex items-start justify-between gap-4">
+          <div className="mb-3 flex items-start justify-between gap-3">
             <div>
-              <p className="text-sm font-semibold uppercase text-cyan-100/70">{project.name}</p>
-              <h3 className="mt-2 font-display text-3xl font-bold text-white">{project.title}</h3>
+              <p className="text-xs font-semibold uppercase text-cyan-100/70">{project.name}</p>
+              <h3 className="mt-1 font-display text-xl font-bold leading-tight text-white sm:text-2xl">{project.title}</h3>
             </div>
-            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full border border-cyan-300/25 bg-cyan-300/10 text-cyan-100 shadow-neon-soft">
-              <RadioTower className="h-5 w-5" />
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-cyan-300/25 bg-cyan-300/10 text-cyan-100 shadow-neon-soft">
+              <RadioTower className="h-4 w-4" />
             </span>
           </div>
 
-          <div className="mb-6 flex flex-wrap gap-2">
+          <div className="mb-3 flex flex-wrap gap-1.5">
             {project.tech.map((tech) => (
-              <Badge key={tech}>{tech}</Badge>
+              <Badge key={tech} className="min-h-6 px-2 text-[11px]">
+                {tech}
+              </Badge>
             ))}
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-2">
             {project.description.map((item) => (
-              <p key={item} className="rounded-[8px] border border-white/8 bg-white/[0.035] px-4 py-3 text-sm leading-6 text-white/68">
+              <p key={item} className="rounded-[8px] border border-white/8 bg-white/[0.035] px-3 py-1.5 text-[11px] leading-4 text-white/68 sm:text-xs">
                 {item}
               </p>
             ))}
           </div>
-        </div>
 
-        <div className="relative mt-auto pt-7">
-          <div className="mb-5 h-28 overflow-hidden rounded-[8px] border border-white/10 bg-black/30">
-            <div className={`h-full bg-gradient-to-br ${project.accent} opacity-70`}>
-              <div className="h-full bg-[linear-gradient(135deg,rgba(255,255,255,0.24)_0_1px,transparent_1px_18px)] opacity-50" />
+          <div className="mt-3 overflow-hidden rounded-[8px] border border-white/10 bg-black/30">
+            <div className={`bg-gradient-to-br ${project.accent} p-[1px]`}>
+              <div className="relative overflow-hidden rounded-[7px] bg-[#07101f]/78 p-3">
+                <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.22)_0_1px,transparent_1px_18px)] opacity-30" />
+                <div className="relative flex items-start justify-between gap-3">
+                  <div>
+                    <p className="text-xs font-semibold uppercase text-cyan-100/70">{project.preview.label}</p>
+                    <p className="mt-1 text-xs font-semibold leading-4 text-white/85">{project.preview.headline}</p>
+                  </div>
+                  <span className="rounded-[8px] border border-white/10 bg-white/8 px-2 py-1 text-[11px] font-bold text-cyan-100">
+                    {project.tech.length} tools
+                  </span>
+                </div>
+                <div className="relative mt-3 grid grid-cols-2 gap-1.5">
+                  {project.preview.items.map((item) => (
+                    <span key={item} className="rounded-[8px] border border-white/10 bg-white/[0.035] px-2.5 py-1.5 text-[11px] font-medium leading-4 text-white/72">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
+        </div>
+
+        <div className="relative shrink-0 pt-4">
           <div className="flex flex-col gap-3 sm:flex-row">
             <Button asChild className="flex-1">
               <a href={project.live} target="_blank" rel="noreferrer">
@@ -73,7 +95,7 @@ function ProjectCard({ project }) {
       </article>
     </Tilt>
   );
-}
+});
 
 export function Projects() {
   const shouldLoop = projects.length > 3;
@@ -103,10 +125,10 @@ export function Projects() {
               900: { slidesPerView: 2, spaceBetween: 24 },
               1280: { slidesPerView: 3, spaceBetween: 28 },
             }}
-            className="!overflow-visible pb-14"
+            className="!overflow-visible pb-14 [&_.swiper-wrapper]:items-stretch"
           >
             {projects.map((project) => (
-              <SwiperSlide key={project.name} className="!h-auto">
+              <SwiperSlide key={project.name} className="!flex !h-auto">
                 <ProjectCard project={project} />
               </SwiperSlide>
             ))}

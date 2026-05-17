@@ -7,9 +7,11 @@ import { personal, typingRoles } from "../../constants/portfolio";
 import { useTypewriter } from "../../hooks/useTypewriter";
 import { fadeUp, staggerContainer } from "../../animations/variants";
 import { MagneticButton } from "../shared/MagneticButton";
-import { ParticleField } from "../effects/ParticleField";
 
 const HeroScene = lazy(() => import("../three/HeroScene"));
+const ParticleField = lazy(() =>
+  import("../effects/ParticleField").then((module) => ({ default: module.ParticleField })),
+);
 
 function scrollToProjects() {
   document.querySelector("#projects")?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -26,7 +28,9 @@ export function Hero() {
     <section id="home" className="relative isolate flex min-h-screen overflow-hidden pt-28">
       <div className="absolute inset-0 bg-cyber-grid bg-[length:64px_64px] opacity-[0.16] [mask-image:linear-gradient(to_bottom,transparent,black_16%,black_76%,transparent)]" />
       <div className="absolute inset-0 aurora-field" aria-hidden="true" />
-      <ParticleField />
+      <Suspense fallback={null}>
+        <ParticleField />
+      </Suspense>
       <div className="hero-scene-layer absolute inset-0 z-0">
         <Suspense fallback={<div className="h-full w-full" />}>
           <HeroScene />
@@ -38,6 +42,10 @@ export function Hero() {
         alt=""
         className="hero-profile-ghost pointer-events-none absolute bottom-0 right-0 z-[1] hidden h-[78vh] max-h-[760px] w-auto translate-x-[18%] object-contain mix-blend-screen saturate-150 lg:block"
         aria-hidden="true"
+        loading="lazy"
+        decoding="async"
+        width="640"
+        height="640"
       />
 
       <div className="container relative z-10 grid min-h-[calc(100vh-7rem)] items-center gap-12 pb-16 lg:grid-cols-[1.12fr_0.88fr]">
@@ -111,6 +119,10 @@ export function Hero() {
                   alt="Md Zakir Hussain"
                   className="h-full w-full object-cover saturate-125"
                   loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
+                  width="640"
+                  height="640"
                 />
                 <div className="absolute inset-0 bg-gradient-to-tr from-cyan-300/18 via-transparent to-fuchsia-300/18 mix-blend-screen" />
               </div>
