@@ -4,6 +4,7 @@ import { Command, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { navItems } from "../../constants/portfolio";
 import { ThemeToggle } from "../effects/ThemeToggle";
+import { BrandLogo } from "../shared/BrandLogo";
 import { Button } from "../ui/button";
 
 function scrollToHref(href) {
@@ -34,9 +35,7 @@ export function Navbar({ theme, onToggleTheme, onOpenCommand }) {
           className="group flex items-center gap-3"
           aria-label="Go to home"
         >
-          <span className="grid h-11 w-11 place-items-center rounded-full border border-cyan-300/35 bg-cyan-300/10 font-display text-sm font-bold text-white shadow-neon-soft">
-            MZ
-          </span>
+          <BrandLogo />
           <span className="hidden leading-tight sm:block">
             <span className="block font-display text-sm font-bold text-white">Md Zakir Hussain</span>
             <span className="block text-xs text-cyan-100/60">Full Stack Java Developer</span>

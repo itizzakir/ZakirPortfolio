@@ -1,12 +1,27 @@
 <svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="128" height="128" rx="30" fill="#05070F"/>
-  <path d="M26 78L46 50L62 74L82 38L104 82" stroke="url(#paint0_linear_1_3)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M38 92H94" stroke="#EAFBFF" stroke-width="6" stroke-linecap="round"/>
   <defs>
-    <linearGradient id="paint0_linear_1_3" x1="26" y1="38" x2="104" y2="82" gradientUnits="userSpaceOnUse">
+    <linearGradient id="border" x1="16" y1="12" x2="112" y2="116" gradientUnits="userSpaceOnUse">
       <stop stop-color="#22D3EE"/>
-      <stop offset="0.5" stop-color="#8B5CF6"/>
-      <stop offset="1" stop-color="#F472B6"/>
+      <stop offset="0.36" stop-color="#8B5CF6"/>
+      <stop offset="0.7" stop-color="#F472B6"/>
+      <stop offset="1" stop-color="#67E8F9"/>
     </linearGradient>
+    <linearGradient id="mark" x1="28" y1="34" x2="106" y2="91" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EAFFFF"/>
+      <stop offset="0.42" stop-color="#67E8F9"/>
+      <stop offset="0.72" stop-color="#A78BFA"/>
+      <stop offset="1" stop-color="#F0ABFC"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.133 0 0 0 0 0.827 0 0 0 0 0.933 0 0 0 0.7 0" result="coloredBlur"/>
+      <feBlend in="SourceGraphic" in2="coloredBlur"/>
+    </filter>
   </defs>
+  <rect x="9" y="9" width="110" height="110" rx="32" fill="#07101F"/>
+  <rect x="9" y="9" width="110" height="110" rx="32" stroke="url(#border)" stroke-width="8"/>
+  <path d="M31 42H76L36 86H81" stroke="url(#mark)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+  <path d="M87 42V86M87 64H108M108 42V86" stroke="url(#mark)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+  <circle cx="31" cy="42" r="4" fill="#67E8F9"/>
+  <circle cx="108" cy="86" r="4" fill="#F0ABFC"/>
 </svg>

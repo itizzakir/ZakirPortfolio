@@ -290,6 +290,124 @@ a {
     --card-y: 0%;
   }
 
+  .brand-logo {
+    position: relative;
+    display: grid;
+    width: 3.05rem;
+    height: 3.05rem;
+    flex-shrink: 0;
+    place-items: center;
+    border-radius: 18px;
+    isolation: isolate;
+    box-shadow:
+      0 0 18px rgba(34, 211, 238, 0.32),
+      0 0 36px rgba(167, 139, 250, 0.18);
+    transition: transform 220ms ease, filter 220ms ease;
+  }
+
+  .brand-logo:hover {
+    filter: saturate(1.12);
+    transform: translateY(-1px) scale(1.035);
+  }
+
+  .brand-logo::before {
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    border-radius: inherit;
+    background: conic-gradient(from 0deg, #22d3ee, #67e8f9, #8b5cf6, #f472b6, #22d3ee);
+    animation: rgb-border-spin 6s linear infinite;
+    content: "";
+  }
+
+  .brand-logo::after {
+    position: absolute;
+    inset: -5px;
+    z-index: -2;
+    border-radius: 23px;
+    background: conic-gradient(from 0deg, #22d3ee, #67e8f9, #8b5cf6, #f472b6, #22d3ee);
+    filter: blur(14px);
+    opacity: 0.38;
+    animation: rgb-border-spin 6s linear infinite;
+    content: "";
+  }
+
+  .brand-logo--loader {
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 24px;
+  }
+
+  .brand-logo--loader::after {
+    inset: -8px;
+    border-radius: 32px;
+    filter: blur(18px);
+    opacity: 0.56;
+  }
+
+  .brand-logo--loader .brand-logo__svg {
+    width: calc(100% - 6px);
+    height: calc(100% - 6px);
+  }
+
+  .brand-logo__svg {
+    position: relative;
+    z-index: 1;
+    width: calc(100% - 4px);
+    height: calc(100% - 4px);
+    overflow: visible;
+  }
+
+  .brand-logo__panel {
+    fill: hsl(var(--card) / 0.96);
+    stroke: hsl(var(--foreground) / 0.12);
+    stroke-width: 1;
+  }
+
+  .brand-logo__mesh {
+    fill: none;
+    stroke: hsl(var(--primary) / 0.13);
+    stroke-width: 0.75;
+    animation: logo-mesh-pulse 3.8s ease-in-out infinite;
+  }
+
+  .brand-logo__mark,
+  .brand-logo__shine {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .brand-logo__mark {
+    stroke-width: 4.4;
+    filter: drop-shadow(0 0 7px rgba(34, 211, 238, 0.45));
+  }
+
+  .brand-logo__mark-h {
+    stroke-width: 4;
+  }
+
+  .brand-logo__shine {
+    stroke: rgba(255, 255, 255, 0.9);
+    stroke-width: 1.35;
+    stroke-dasharray: 12 145;
+    stroke-dashoffset: 0;
+    opacity: 0.72;
+    animation: logo-stroke-shine 3.2s ease-in-out infinite;
+  }
+
+  .brand-logo__node {
+    fill: #67e8f9;
+    filter: drop-shadow(0 0 7px rgba(34, 211, 238, 0.75));
+    transform-origin: center;
+    animation: logo-node-pulse 2.8s ease-in-out infinite;
+  }
+
+  .brand-logo__node-b {
+    fill: #f0abfc;
+    animation-delay: 0.8s;
+  }
+
   .noise-overlay {
     pointer-events: none;
     position: fixed;
@@ -588,6 +706,54 @@ a {
 .swiper-pagination-bullet-active {
   background: hsl(var(--primary)) !important;
   box-shadow: 0 0 18px rgba(34, 211, 238, 0.7);
+}
+
+@keyframes rgb-border-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes logo-stroke-shine {
+  0%,
+  18% {
+    stroke-dashoffset: 20;
+    opacity: 0;
+  }
+
+  42%,
+  68% {
+    opacity: 0.78;
+  }
+
+  100% {
+    stroke-dashoffset: -145;
+    opacity: 0;
+  }
+}
+
+@keyframes logo-mesh-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+
+  50% {
+    opacity: 0.75;
+  }
+}
+
+@keyframes logo-node-pulse {
+  0%,
+  100% {
+    opacity: 0.58;
+    transform: scale(0.88);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
 }
 
 @media (max-width: 767px) {
