@@ -1,14 +1,20 @@
-import { useRef } from "react";
+import { lazy, Suspense, useRef } from "react";
 import { useGsapReveal } from "../animations/gsap";
-import { About } from "../components/sections/About";
-import { Certifications } from "../components/sections/Certifications";
-import { Contact } from "../components/sections/Contact";
-import { Coursework } from "../components/sections/Coursework";
-import { Education } from "../components/sections/Education";
-import { Experience } from "../components/sections/Experience";
 import { Hero } from "../components/sections/Hero";
-import { Projects } from "../components/sections/Projects";
-import { TechStack } from "../components/sections/TechStack";
+
+// Hero paints immediately; everything below the fold is split into its own
+// chunk and streamed in as the user scrolls, keeping the initial bundle lean.
+const About = lazy(() => import("../components/sections/About").then((m) => ({ default: m.About })));
+const Education = lazy(() => import("../components/sections/Education").then((m) => ({ default: m.Education })));
+const TechStack = lazy(() => import("../components/sections/TechStack").then((m) => ({ default: m.TechStack })));
+const Experience = lazy(() => import("../components/sections/Experience").then((m) => ({ default: m.Experience })));
+const Projects = lazy(() => import("../components/sections/Projects").then((m) => ({ default: m.Projects })));
+const Certifications = lazy(() => import("../components/sections/Certifications").then((m) => ({ default: m.Certifications })));
+const Coursework = lazy(() => import("../components/sections/Coursework").then((m) => ({ default: m.Coursework })));
+const Contact = lazy(() => import("../components/sections/Contact").then((m) => ({ default: m.Contact })));
+
+// Reserve vertical space so lazy sections don't cause layout shift / scroll jump.
+const sectionFallback = <div className="min-h-[60vh]" aria-hidden="true" />;
 
 export function Home() {
   const scopeRef = useRef(null);
@@ -17,14 +23,16 @@ export function Home() {
   return (
     <main ref={scopeRef}>
       <Hero />
-      <About />
-      <Education />
-      <TechStack />
-      <Experience />
-      <Projects />
-      <Certifications />
-      <Coursework />
-      <Contact />
+      <Suspense fallback={sectionFallback}>
+        <About />
+        <Education />
+        <TechStack />
+        <Experience />
+        <Projects />
+        <Certifications />
+        <Coursework />
+        <Contact />
+      </Suspense>
     </main>
   );
 }

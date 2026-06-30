@@ -4,6 +4,8 @@ import { Loader2, Mail, MapPin, Phone, Send, Sparkles } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { personal } from "../../constants/portfolio";
 import { sendContactMessage } from "../../services/email";
+import { useCanvasGate } from "../../hooks/useCanvasGate";
+import { usePerformanceMode } from "../../hooks/usePerformanceMode";
 import { fadeUp, viewport } from "../../animations/variants";
 import { SectionHeading } from "../shared/SectionHeading";
 import { Button } from "../ui/button";
@@ -21,6 +23,9 @@ const initialValues = {
 export function Contact() {
   const [values, setValues] = useState(initialValues);
   const [status, setStatus] = useState("idle");
+  const perf = usePerformanceMode();
+  const { setRef: setGlobeRef, inView: globeInView, mounted: globeMounted } = useCanvasGate();
+  const showGlobe = perf.tier !== "minimal";
 
   const onChange = (event) => {
     setValues((current) => ({ ...current, [event.target.name]: event.target.value }));
@@ -101,10 +106,22 @@ export function Contact() {
           </motion.div>
 
           <motion.aside variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport} className="space-y-5">
-            <div className="relative min-h-[330px] overflow-hidden rounded-[8px] border border-white/10 bg-[#07101f]/55 shadow-neon-soft">
-              <Suspense fallback={<div className="grid h-[330px] place-items-center text-sm text-cyan-100/60">Loading globe...</div>}>
-                <EarthGlobe />
-              </Suspense>
+            <div
+              ref={setGlobeRef}
+              className="relative min-h-[330px] overflow-hidden rounded-[8px] border border-white/10 bg-[#07101f]/55 shadow-neon-soft"
+            >
+              {showGlobe && globeMounted ? (
+                <Suspense fallback={<div className="grid h-[330px] place-items-center text-sm text-cyan-100/60">Loading globe...</div>}>
+                  <EarthGlobe
+                    frameloop={globeInView ? "always" : "demand"}
+                    lowPower={!perf.enableHeavyFx}
+                  />
+                </Suspense>
+              ) : (
+                <div className="grid h-[330px] place-items-center text-sm text-cyan-100/60" aria-hidden="true">
+                  Hyderabad, Telangana, India
+                </div>
+              )}
               <div className="absolute bottom-4 left-4 right-4 rounded-[8px] border border-white/10 bg-black/35 px-4 py-3 text-sm text-white/70 backdrop-blur-xl">
                 Hyderabad, Telangana, India
               </div>

@@ -5,6 +5,8 @@ import { ArrowDown, Download, Mail, Rocket, Send } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { personal, typingRoles } from "../../constants/portfolio";
 import { useTypewriter } from "../../hooks/useTypewriter";
+import { useCanvasGate } from "../../hooks/useCanvasGate";
+import { usePerformanceMode } from "../../hooks/usePerformanceMode";
 import { fadeUp, staggerContainer } from "../../animations/variants";
 import { MagneticButton } from "../shared/MagneticButton";
 
@@ -23,18 +25,28 @@ function scrollToContact() {
 
 export function Hero() {
   const typedRole = useTypewriter(typingRoles);
+  const perf = usePerformanceMode();
+  const { setRef: setSceneRef, inView: sceneInView, mounted: sceneMounted } = useCanvasGate();
+  const showScene = perf.tier !== "minimal";
 
   return (
     <section id="home" className="relative isolate flex min-h-screen overflow-hidden pt-28">
       <div className="absolute inset-0 bg-cyber-grid bg-[length:64px_64px] opacity-[0.16] [mask-image:linear-gradient(to_bottom,transparent,black_16%,black_76%,transparent)]" />
       <div className="absolute inset-0 aurora-field" aria-hidden="true" />
-      <Suspense fallback={null}>
-        <ParticleField />
-      </Suspense>
-      <div className="hero-scene-layer absolute inset-0 z-0">
-        <Suspense fallback={<div className="h-full w-full" />}>
-          <HeroScene />
+      {perf.enableParticles ? (
+        <Suspense fallback={null}>
+          <ParticleField />
         </Suspense>
+      ) : null}
+      <div ref={setSceneRef} className="hero-scene-layer absolute inset-0 z-0">
+        {showScene && sceneMounted ? (
+          <Suspense fallback={<div className="h-full w-full" />}>
+            <HeroScene
+              frameloop={sceneInView ? "always" : "demand"}
+              lowPower={!perf.enableHeavyFx}
+            />
+          </Suspense>
+        ) : null}
       </div>
 
       <img
@@ -54,7 +66,7 @@ export function Hero() {
             <Rocket className="h-3.5 w-3.5" />
             Available for full-stack opportunities
           </motion.div>
-          <motion.h1 variants={fadeUp} className="font-display text-5xl font-bold leading-[1.03] text-white sm:text-6xl lg:text-7xl">
+          <motion.h1 variants={fadeUp} className="font-display text-5xl font-bold leading-[1.03] tracking-tight text-white sm:text-6xl lg:text-7xl">
             Hi, I&apos;m <span className="neon-text">Md Zakir Hussain</span>
           </motion.h1>
           <motion.div variants={fadeUp} className="mt-5 min-h-12 font-display text-2xl font-semibold text-cyan-100 sm:text-3xl">

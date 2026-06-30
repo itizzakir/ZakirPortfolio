@@ -59,6 +59,7 @@ export function CommandPalette({ actions, open, onOpenChange, onToggleTheme, onT
                     value={query}
                     onChange={(event) => setQuery(event.target.value)}
                     placeholder="Search actions..."
+                    aria-label="Search portfolio actions"
                     className="h-10 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-white/35"
                   />
                   <Dialog.Close asChild>
@@ -71,7 +72,7 @@ export function CommandPalette({ actions, open, onOpenChange, onToggleTheme, onT
                 <div className="max-h-[55vh] overflow-y-auto p-3">
                   {filtered.map((action) => (
                     <button
-                      key={action.label}
+                      key={action.href}
                       type="button"
                       onClick={() => runAction(action, onOpenChange)}
                       className="flex min-h-14 w-full items-center justify-between rounded-[8px] px-3 text-left text-sm text-white/85 transition hover:bg-white/8"
