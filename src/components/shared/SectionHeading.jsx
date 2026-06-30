@@ -19,10 +19,12 @@ export function SectionHeading({ eyebrow, title, subtitle, align = "center", cla
         <span className="h-1.5 w-1.5 rounded-full bg-cyan-300 shadow-[0_0_18px_rgba(34,211,238,0.9)]" />
         {eyebrow}
       </div>
-      <h2 className="font-display text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
+      <h2 className="font-display text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
         {title}
       </h2>
-      {subtitle ? <p className="mt-4 text-base leading-8 text-muted-foreground">{subtitle}</p> : null}
+      {subtitle ? (
+        <p className="mx-auto mt-4 max-w-2xl text-base leading-8 text-muted-foreground">{subtitle}</p>
+      ) : null}
     </motion.div>
   );
 }

@@ -1,8 +1,20 @@
 import { useEffect } from "react";
 import Lenis from "lenis";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-export function useLenis() {
+gsap.registerPlugin(ScrollTrigger);
+
+/**
+ * Smooth scroll driven by a SINGLE animation loop shared with GSAP. Lenis is
+ * advanced from gsap.ticker (not its own rAF), and ScrollTrigger updates on
+ * every Lenis scroll event, so reveals stay in sync with the smooth scroll.
+ * Skipped entirely under prefers-reduced-motion (native scroll instead).
+ */
+export function useLenis(enabled = true) {
   useEffect(() => {
+    if (!enabled) return undefined;
+
     const lenis = new Lenis({
       duration: 1.15,
       smoothWheel: true,
@@ -13,17 +25,18 @@ export function useLenis() {
 
     window.lenis = lenis;
 
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
+    const onScroll = () => ScrollTrigger.update();
+    lenis.on("scroll", onScroll);
 
-    const rafId = requestAnimationFrame(raf);
+    const tick = (time) => lenis.raf(time * 1000);
+    gsap.ticker.add(tick);
+    gsap.ticker.lagSmoothing(0);
 
     return () => {
-      cancelAnimationFrame(rafId);
+      lenis.off("scroll", onScroll);
+      gsap.ticker.remove(tick);
       lenis.destroy();
-      delete window.lenis;
+      if (window.lenis === lenis) delete window.lenis;
     };
-  }, []);
+  }, [enabled]);
 }

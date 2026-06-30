@@ -1,19 +1,34 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export function useAmbientAudio() {
   const [enabled, setEnabled] = useState(false);
   const audioRef = useRef(null);
+  const stopTimerRef = useRef(null);
 
   const stop = useCallback(() => {
     if (!audioRef.current) return;
     audioRef.current.gain.gain.linearRampToValueAtTime(0, audioRef.current.context.currentTime + 0.2);
-    setTimeout(() => {
+    if (stopTimerRef.current) clearTimeout(stopTimerRef.current);
+    stopTimerRef.current = setTimeout(() => {
+      stopTimerRef.current = null;
       audioRef.current?.oscillators.forEach((oscillator) => oscillator.stop());
       audioRef.current?.context.close();
       audioRef.current = null;
     }, 260);
     setEnabled(false);
   }, []);
+
+  // Tear down any pending fade-out timer and the audio graph on unmount so
+  // nothing fires against a closed context under StrictMode re-mounts.
+  useEffect(
+    () => () => {
+      if (stopTimerRef.current) clearTimeout(stopTimerRef.current);
+      audioRef.current?.oscillators.forEach((oscillator) => oscillator.stop());
+      audioRef.current?.context.close();
+      audioRef.current = null;
+    },
+    [],
+  );
 
   const start = useCallback(() => {
     if (audioRef.current) {

@@ -22,7 +22,7 @@ function ShapeCluster() {
       </Float>
       <Float speed={1.1} rotationIntensity={0.8} floatIntensity={1.2}>
         <mesh position={[2.35, -0.35, -1.1]}>
-          <torusKnotGeometry args={[0.55, 0.18, 120, 18]} />
+          <torusKnotGeometry args={[0.55, 0.18, 96, 14]} />
           <meshStandardMaterial color="#a78bfa" emissive="#7c3aed" emissiveIntensity={0.75} metalness={0.7} roughness={0.22} transparent opacity={0.8} />
         </mesh>
       </Float>
@@ -62,12 +62,13 @@ function NeuralLines() {
   );
 }
 
-export default function HeroScene() {
+export default function HeroScene({ frameloop = "always", lowPower = false }) {
   return (
     <Canvas
+      frameloop={frameloop}
       camera={{ position: [0, 0, 5.6], fov: 58 }}
-      dpr={[1, 1.8]}
-      gl={{ antialias: true, alpha: true, premultipliedAlpha: false }}
+      dpr={[1, lowPower ? 1.25 : 1.75]}
+      gl={{ antialias: !lowPower, alpha: true, premultipliedAlpha: false, powerPreference: "high-performance" }}
       onCreated={({ gl, scene }) => {
         scene.background = null;
         gl.setClearColor(0x000000, 0);
@@ -76,7 +77,7 @@ export default function HeroScene() {
       <ambientLight intensity={0.55} />
       <pointLight position={[2.8, 3.2, 3]} intensity={2.2} color="#22d3ee" />
       <pointLight position={[-3.2, -2.2, 2.6]} intensity={1.7} color="#8b5cf6" />
-      <Sparkles count={72} scale={[7.4, 4.2, 3]} size={2.3} speed={0.42} color="#67e8f9" opacity={0.42} />
+      <Sparkles count={lowPower ? 32 : 56} scale={[7.4, 4.2, 3]} size={2.3} speed={0.42} color="#67e8f9" opacity={0.42} />
       <NeuralLines />
       <ShapeCluster />
     </Canvas>

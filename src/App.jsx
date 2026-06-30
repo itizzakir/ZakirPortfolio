@@ -4,6 +4,8 @@ import { commandActions } from "./constants/portfolio";
 import { useAmbientAudio } from "./hooks/useAmbientAudio";
 import { useKeyboardShortcuts } from "./hooks/useKeyboardShortcuts";
 import { useLenis } from "./hooks/useLenis";
+import { usePerformanceMode } from "./hooks/usePerformanceMode";
+import { usePointerTracking } from "./hooks/usePointer";
 import { useThemeMode } from "./hooks/useThemeMode";
 import { CommandPalette } from "./components/effects/CommandPalette";
 import { CustomCursor } from "./components/effects/CustomCursor";
@@ -24,8 +26,10 @@ function App() {
   const [easterEgg, setEasterEgg] = useState(false);
   const { theme, toggleTheme } = useThemeMode();
   const { audioEnabled, toggleAudio, stopAudio } = useAmbientAudio();
+  const perf = usePerformanceMode();
 
-  useLenis();
+  useLenis(!perf.reducedMotion);
+  usePointerTracking(perf.enableCursor);
 
   const openCommandPalette = useCallback(() => setCommandOpen(true), []);
 
@@ -58,10 +62,10 @@ function App() {
     <>
       <Seo />
       <PageLoader />
-      <NoiseOverlay />
+      {perf.enableAmbientOverlays ? <NoiseOverlay /> : null}
       <ScrollProgress />
-      <Spotlight />
-      <CustomCursor />
+      {perf.enableCursor ? <Spotlight /> : null}
+      {perf.enableCursor ? <CustomCursor /> : null}
       <ErrorBoundary>
         <Navbar theme={theme} onToggleTheme={toggleTheme} onOpenCommand={openCommandPalette} />
         <Routes>

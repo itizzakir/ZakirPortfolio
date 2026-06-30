@@ -16,7 +16,6 @@ export default defineConfig({
           if (!id.includes('node_modules')) return undefined
           const normalizedId = id.replaceAll('\\', '/')
           if (normalizedId.includes('/@react-three/') || normalizedId.includes('/three/')) return 'three'
-          if (normalizedId.includes('/react-tsparticles/') || normalizedId.includes('/tsparticles')) return 'particles'
           if (normalizedId.includes('/framer-motion/') || normalizedId.includes('/gsap/') || normalizedId.includes('/lenis/')) return 'animation'
           if (normalizedId.includes('/lucide-react/') || normalizedId.includes('/react-icons/') || normalizedId.includes('/@radix-ui/')) return 'ui'
           if (

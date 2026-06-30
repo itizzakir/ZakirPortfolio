@@ -1,15 +1,7 @@
-import { useMousePosition } from "../../hooks/useMousePosition";
-
+// Cursor spotlight. Position is driven entirely by the --mx/--my CSS custom
+// properties (updated outside React in usePointer), and the glow itself is a
+// fixed-size element moved with a GPU-composited transform — so following the
+// cursor costs no React renders and no full-screen repaints.
 export function Spotlight() {
-  const { x, y } = useMousePosition();
-
-  return (
-    <div
-      className="pointer-events-none fixed inset-0 z-[2] hidden mix-blend-screen lg:block"
-      style={{
-        background: `radial-gradient(520px circle at ${x}px ${y}px, rgba(34, 211, 238, 0.13), rgba(139, 92, 246, 0.08) 34%, transparent 68%)`,
-      }}
-      aria-hidden="true"
-    />
-  );
+  return <div className="spotlight-layer" aria-hidden="true" />;
 }

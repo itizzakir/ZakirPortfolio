@@ -53,6 +53,7 @@
   --scrollbar-thumb: linear-gradient(180deg, #22d3ee, #8b5cf6);
   --noise-opacity: 0.055;
   --noise-blend: screen;
+  --vignette: rgba(2, 4, 10, 0.62);
 }
 
 html[data-theme="light"] {
@@ -107,6 +108,7 @@ html[data-theme="light"] {
   --scrollbar-thumb: linear-gradient(180deg, #0891b2, #7c3aed);
   --noise-opacity: 0.025;
   --noise-blend: multiply;
+  --vignette: rgba(110, 130, 170, 0.14);
 }
 
 * {
@@ -140,6 +142,17 @@ body::before {
   content: "";
 }
 
+/* Cinematic vignette: one cheap, static radial layer that deepens the edges so
+   the background reads with depth rather than flat. No blur, no blend. */
+body::after {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(120% 90% at 50% 42%, transparent 56%, var(--vignette) 100%);
+  content: "";
+}
+
 button,
 a,
 input,
@@ -150,6 +163,16 @@ textarea {
 button,
 a {
   cursor: pointer;
+}
+
+/* Keyboard focus: visible ring on links and interactive non-button elements
+   (buttons carry their own focus-visible ring via the Button component). */
+a:focus-visible,
+[tabindex]:focus-visible,
+summary:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 3px;
+  border-radius: 6px;
 }
 
 ::selection {
@@ -193,7 +216,7 @@ a {
     position: relative;
     isolation: isolate;
     background: var(--glass-bg);
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(16px);
   }
 
   .glass-panel::before {
@@ -219,9 +242,17 @@ a {
     text-shadow: var(--neon-text-shadow);
   }
 
+  /* Premium display hierarchy: tighten optical tracking on large headings. */
+  h1.font-display,
+  h2.font-display {
+    letter-spacing: -0.022em;
+  }
+
   .aurora-field {
     background: var(--aurora-bg);
     filter: blur(18px);
+    will-change: transform;
+    animation: aurora-drift 26s ease-in-out infinite alternate;
   }
 
   .profile-shell::before {
@@ -418,6 +449,44 @@ a {
     background-image:
       repeating-radial-gradient(circle at 17% 21%, rgba(255, 255, 255, 0.55) 0 1px, transparent 1px 2px),
       repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.12) 0 1px, transparent 1px 3px);
+  }
+
+  .spotlight-layer {
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    overflow: hidden;
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .spotlight-layer {
+      display: block;
+    }
+  }
+
+  /* Fixed-size glow centred on the origin, then moved to the cursor with a
+     GPU-composited transform — translating a layer instead of repainting a
+     full-screen gradient on every pointer move. */
+  .spotlight-layer::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1040px;
+    height: 1040px;
+    margin: -520px 0 0 -520px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      rgba(34, 211, 238, 0.13),
+      rgba(139, 92, 246, 0.08) 34%,
+      transparent 68%
+    );
+    mix-blend-mode: screen;
+    transform: translate3d(var(--mx, 50vw), var(--my, 50vh), 0);
+    will-change: transform;
+    content: "";
   }
 }
 
@@ -711,6 +780,15 @@ a {
 @keyframes rgb-border-spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes aurora-drift {
+  0% {
+    transform: translate3d(-2%, -1%, 0) scale(1.05);
+  }
+  100% {
+    transform: translate3d(2%, 1%, 0) scale(1.12);
   }
 }
 
